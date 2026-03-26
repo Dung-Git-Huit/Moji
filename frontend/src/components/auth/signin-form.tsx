@@ -10,7 +10,10 @@ import { useAuthStore } from "@/stores/useAuthStore";
 import { useNavigate } from "react-router";
 
 const signInSchema = z.object({
-  username: z.string().min(3, "Tên đăng nhập phải có ít nhất 3 ký tự"),
+  username: z
+    .string()
+    .min(1, "Tên đăng nhập không được để trống")
+    .min(3, "Tên đăng nhập phải có ít nhất 3 ký tự"),
 
   password: z.string().min(6, "Mật khẩu phải có it nhất 6 ký tự"),
 });
