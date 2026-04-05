@@ -25,7 +25,7 @@ const userSChema = new mongoose.Schema(
       required: true,
       trim: true,
     },
-    avartarUrl: {
+    avatarUrl: {
       type: String, //link CDN để hiển thị hình
     },
     avatarId: {
