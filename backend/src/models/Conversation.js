@@ -7,6 +7,7 @@ const participantSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+
     joinedAt: {
       type: Date,
       default: Date.now,
