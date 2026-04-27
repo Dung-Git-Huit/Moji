@@ -7,7 +7,7 @@ function DirrectMessageList() {
   if (!conversations) return;
 
   const dirrectMessages = conversations.filter(
-    (convo) => convo.type === "dirrect",
+    (convo) => convo.type === "direct",
   );
 
   return (
