@@ -3,6 +3,9 @@ import Chatcard from "./ChatCard";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { useChatStore } from "@/stores/useChatStore";
 import { cn } from "@/lib/utils";
+import UserAvatar from "./UserAvatar";
+import Statusbadge from "./StatusBadge";
+import UnreadCountbadge from "./UnreadCountBadge";
 
 function DirrectMessageCard({ convo }: { convo: Conversation }) {
   const { user } = useAuthStore();
@@ -39,9 +42,14 @@ function DirrectMessageCard({ convo }: { convo: Conversation }) {
       unreadCount={unreadCount}
       leftSection={
         <>
-          {/* todo: user avatar */}
-          {/* todo: status badge */}
-          {/* todo: unread count */}
+          <UserAvatar
+            type="sidebar"
+            name={otherUser.displayName ?? ""}
+            avatarUrl={otherUser.avatarUrl ?? undefined}
+          />
+          {/* todo:soket io */}
+          <Statusbadge status="offline" />
+          {unreadCount > 0 && <UnreadCountbadge unreadCount={unreadCount} />}
         </>
       }
       subtitle={
