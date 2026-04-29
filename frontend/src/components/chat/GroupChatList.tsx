@@ -9,8 +9,8 @@ function GroupChatList() {
 
   return (
     <div className="flex-1 overflow-y-auto p-2 space-y-2">
-      {groupChats.map((convo) => (
-        <GroupChatCard convo={convo} />
+      {groupChats.map((convo, index) => (
+        <GroupChatCard convo={convo} key={index} />
       ))}
     </div>
   );
