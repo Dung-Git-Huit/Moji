@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import UserAvatar from "./UserAvatar";
 import Statusbadge from "./StatusBadge";
 import UnreadCountbadge from "./UnreadCountBadge";
+import { useSocketStore } from "@/stores/useSocketStore";
 
 function DirrectMessageCard({ convo }: { convo: Conversation }) {
   const { user } = useAuthStore();
@@ -15,6 +16,8 @@ function DirrectMessageCard({ convo }: { convo: Conversation }) {
     messages,
     fetchMessages,
   } = useChatStore();
+
+  const { onlineUsers } = useSocketStore();
 
   if (!user) return null;
 
@@ -53,7 +56,11 @@ function DirrectMessageCard({ convo }: { convo: Conversation }) {
             avatarUrl={otherUser.avatarUrl ?? undefined}
           />
           {/* todo:soket io */}
-          <Statusbadge status="offline" />
+          <Statusbadge
+            status={
+              onlineUsers.includes(otherUser?._id ?? "") ? "online" : "offline"
+            }
+          />
           {unreadCount > 0 && <UnreadCountbadge unreadCount={unreadCount} />}
         </>
       }
