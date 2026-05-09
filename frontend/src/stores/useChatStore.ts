@@ -3,6 +3,7 @@ import type { chatState } from "@/types/store";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { useAuthStore } from "./useAuthStore";
+import UnreadCountBadge from "@/components/chat/UnreadCountBadge";
 
 export const useChatStore = create<chatState>()(
   persist(
@@ -155,6 +156,46 @@ export const useChatStore = create<chatState>()(
             c._id === conversation._id ? { ...c, ...conversation } : c,
           ),
         }));
+      },
+      markAsSeen: async () => {
+        try {
+          const { user } = useAuthStore.getState();
+          const { activeConversationId, conversations } = get();
+
+          if (!activeConversationId || !user) {
+            return;
+          }
+
+          const convo = conversations.find(
+            (c) => c._id === activeConversationId,
+          );
+
+          if (!convo) {
+            return;
+          }
+
+          if ((convo.unreadCounts?.[user._id] ?? 0) === 0) {
+            return;
+          }
+
+          await chatService.markAsSeen(activeConversationId);
+
+          set((state) => ({
+            conversations: state.conversations.map((c) =>
+              c._id === activeConversationId && c.lastMessage
+                ? {
+                    ...c,
+                    unreadCounts: {
+                      ...c.unreadCounts,
+                      [user._id]: 0,
+                    },
+                  }
+                : c,
+            ),
+          }));
+        } catch (error) {
+          console.error("Lỗi xảy ra khi gọi markAsSeen trong store", error);
+        }
       },
     }),
     {

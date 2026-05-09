@@ -1,7 +1,6 @@
 import { cn, formatMessageTime } from "@/lib/utils";
 import type { Conversation, Message, Participant } from "@/types/chat";
 import UserAvatar from "./UserAvatar";
-import { Underline } from "lucide-react";
 import { Card } from "../ui/card";
 import { Badge } from "../ui/badge";
 
@@ -28,7 +27,7 @@ function MessageItem({
       300000; // 5 minutes
 
   const participant = seletedConvo.participants.find(
-    (p: Participant) => p._id === message.senderId,
+    (p: Participant) => p._id.toString() === message.senderId.toString(),
   );
   return (
     <div
