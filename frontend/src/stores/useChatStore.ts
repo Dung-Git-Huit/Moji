@@ -3,7 +3,6 @@ import type { chatState } from "@/types/store";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { useAuthStore } from "./useAuthStore";
-import UnreadCountBadge from "@/components/chat/UnreadCountBadge";
 
 export const useChatStore = create<chatState>()(
   persist(
