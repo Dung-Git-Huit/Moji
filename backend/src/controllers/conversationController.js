@@ -1,82 +1,6 @@
 import Conversation from "../models/Conversation.js";
 import Message from "../models/Message.js";
 import { io } from "../socket/index.js";
-// export const createConversation = async (req, res) => {
-//   try {
-//     const { type, name, memberIds } = req.body;
-//     const userId = req.user._id;
-
-//     if (
-//       !type ||
-//       (type === "group" && !name) ||
-//       !memberIds ||
-//       !Array.isArray(memberIds) ||
-//       memberIds.length === 0
-//     ) {
-//       return res
-//         .status(400)
-//         .json({ message: "Tên và danh sách thành viên là bắt buộc" });
-//     }
-
-//     let conversation;
-
-//     if (type === "direct") {
-//       const participantId = memberIds[0];
-
-//       conversation = await Conversation.findOne({
-//         type: "direct",
-//         "participants.userId": { $all: [userId, participantId] },
-//       });
-
-//       if (!conversation) {
-//         conversation = new Conversation({
-//           type: "direct",
-//           participants: [{ userId }, { userId: participantId }],
-//           lastMessageAt: new Date(),
-//         });
-//       }
-//     }
-
-//     if (type === "group") {
-//       conversation = new Conversation({
-//         type: "group",
-//         participants: [{ userId }, ...memberIds.map((id) => ({ userId: id }))],
-//         group: { name, createdBy: userId },
-//         lastMessageAt: new Date(),
-//       });
-
-//       await conversation.save();
-//     }
-
-//     if (!conversation) {
-//       return res
-//         .status(400)
-//         .json({ message: "conversation  type không hợp lệ" });
-//     }
-
-//     await conversation.populate([
-//       { path: "participants.userId", select: "displayName avatarUrl" },
-//       {
-//         path: "seenBy",
-//         select: "displayName avatarUrl",
-//       },
-//       { path: "lastMessage.senderId", select: "displayName avatarUrl" },
-//     ]);
-//     const participants = (conversation.participants || []).map((p) => ({
-//       _id: p.userId?._id,
-//       displayName: p.userId?.displayName,
-//       avatarUrl: p.userId?.avatarUrl ?? null,
-//       joinedAt: p.joinedAt,
-//     }));
-
-//     const formatted = { ...conversation.toObject(), participants };
-
-//     res.status(201).json({ conversation: formatted });
-//   } catch (error) {
-//     console.error("Lỗi khi tạo conversation:", error);
-//     res.status(500).json({ message: "Lỗi hệ thống" });
-//   }
-// };
 export const createConversation = async (req, res) => {
   try {
     const { type, name, memberIds } = req.body;
@@ -159,10 +83,10 @@ export const createConversation = async (req, res) => {
       });
     }
 
-    if (type === "direct") {
-      io.to(userId).emit("new-group", formatted);
-      io.to(memberIds[0]).emit("new-group", formatted);
-    }
+    // if (type === "direct") {
+    //   io.to(userId).emit("new-group", formatted);
+    //   io.to(memberIds[0]).emit("new-group", formatted);
+    // }
 
     return res.status(201).json({ conversation: formatted });
   } catch (error) {
