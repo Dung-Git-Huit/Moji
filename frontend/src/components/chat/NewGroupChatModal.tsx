@@ -72,7 +72,6 @@ const NewGroupChatModal = () => {
     <Dialog>
       <DialogTrigger asChild>
         <Button
-          asChild
           variant="ghost"
           onClick={handleGetFriends}
           className="flex z-10 justify-center items-center size-5 rounded-full hover:bg-sidebar-accent transition cursor-pointer"
